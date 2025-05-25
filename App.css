@@ -1,0 +1,68 @@
+/* Áp dụng cho toàn bộ body: căn giữa, reset margin */
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center; /* căn giữa ngang */
+  align-items: center;     /* căn giữa dọc nếu muốn */
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+/* Container của ứng dụng */
+.dark,
+.light {
+  transition: all 0.3s ease;
+  min-width: 320px;
+  max-width: 600px;
+  width: 90%;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Giao diện nền tối */
+.dark {
+  background-color: #121212;
+  color: #f0f0f0;
+  padding: 20px;
+}
+
+/* Giao diện nền sáng */
+.light {
+  background-color: #f9f9f9;
+  color: #222;
+  padding: 20px;
+}
+
+/* Nút đổi màu */
+button {
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #72bb75;
+}
+
+/* Định dạng đoạn văn bản */
+p {
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+/* Footer */
+h4 {
+  font-weight: normal;
+  font-size: 16px;
+  color: #888; /* thay vì màu xanh vàng bị chìm */
+  margin: 0;
+  padding-top: 10px;
+}

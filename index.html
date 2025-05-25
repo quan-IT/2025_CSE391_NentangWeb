@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Context API & Custom Hook Demo</title>
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="stylesheet" href="./App.css">
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+    //Tạo context và cú pháp tạo context 
+    const ThemeContext = React.createContext();
+    
+    //tạo 1 Custom hook Lấy kích thước màn hình 
+    //quy ước đặt tên là dùng use phía trước tên hàm và các từ tiếp theo viết hoa chữ cái đầu (tuân theo cú pháp lạc đà)
+    function useWindowSize(){
+        const [size,setSize] = React.useState(
+            {
+                width: window.innerWidth,
+                height:window.innerHeight
+            }
+        );
+        React.useEffect(() =>{
+             const handleResize = ()=>{
+                setSize(
+                    {
+                        width: window.innerWidth,
+                        height:window.innerHeight
+                    }
+                )
+             };
+             window.addEventListener('resize',handleResize);
+             return () => window.removeEventListener('resize',handleResize);
+        },[] );
+        return size;
+    }
+    // custom hook lấy theme của useContext
+    // cú pháp tạo 
+    function useTheme() {
+        const context = React.useContext(ThemeContext);
+        return context;
+    }
+       //component Paragraph (có sử dụng lại custum hook)_____________________________
+    function Paragraph (){
+        const theme = useTheme();
+        const {width,height} = useWindowSize();
+        return(
+            <p className = {theme}>
+                Theme đang sử dụng :<strong>{theme}</strong>
+                <br/>
+                Kích thước màn hình là :{width}px*{height}px 
+                <br/>
+                🌟 Demo React Context API
+                <br/>
+                React Context API là một cơ chế để truyền dữ liệu xuyên suốt component tree mà không cần truyền props thủ công qua từng cấp.
+            </p>
+        )
+    }
+    //component Footer__________________________
+    function Footer(){
+        const {width} = useWindowSize();
+        return(
+            <div> 
+                <h4>Chiều rộng trình duyệt: {width}px</h4>    
+            </div>
+        )
+    }
+
+    //component App _______________________________
+    function App (){
+        const [theme,setTheme] = React.useState('light');
+        const toggleTheme = () =>{
+            setTheme(theme==='light'?'dark':'light');
+        };
+        return(
+          <ThemeContext.Provider value = {theme}>
+            <div className = {theme}>
+                <button onClick = {toggleTheme}>Đổi màu nền</button>
+                <Paragraph/>  
+                <Footer/>
+            </div>
+          </ThemeContext.Provider>
+        );
+    }
+    ReactDOM.render(<App/>,document.getElementById('root'));
+     </script>
+    
+</body>
+</html>
